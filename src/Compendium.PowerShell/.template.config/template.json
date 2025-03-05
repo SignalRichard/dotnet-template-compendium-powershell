@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Richard Bolhofer",
+  "classifications": [ "PowerShell", "Module" ],
+  "tags": {
+    "type": "item",
+    "language": "PowerShell"
+  },
+  "identity": "SignalRichard.dotnet-template-compendium-powershell",
+  "name": "Compendium.PowerShell",
+  "shortName": "powershell",
+  "description": "PowerShell module setup.",
+  "symbols": {
+    "module-name": {
+      "type": "parameter",
+      "description": "The module name.",
+      "datatype": "text",
+      "replaces": "Compendium",
+      "fileRename": "Compendium"
+    }
+  }
+}
