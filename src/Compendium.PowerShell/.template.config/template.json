@@ -11,12 +11,28 @@
   "shortName": "powershell",
   "description": "PowerShell module setup.",
   "symbols": {
-    "module-name": {
+    "moduleId": {
+      "type": "generated",
+      "description": "Generate a new GUID for the PowerShell module.",
+      "generator": "guid",
+      "replaces": "moduleId"
+    },
+    "moduleName": {
       "type": "parameter",
       "description": "The module name.",
       "datatype": "text",
       "replaces": "Compendium",
       "fileRename": "Compendium"
+    },
+    "moduleNameLower": {
+      "type": "generated",
+      "description": "The parameterized module name in lower case.",
+      "generator": "casing",
+      "parameters": {
+        "source": "moduleName",
+        "toLower": true
+      },
+      "replaces": "compendium"
     }
   }
 }
