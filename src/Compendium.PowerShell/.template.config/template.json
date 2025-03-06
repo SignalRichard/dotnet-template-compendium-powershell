@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Richard Bolhofer",
+  "classifications": [ "PowerShell", "Module" ],
+  "tags": {
+    "type": "item",
+    "language": "PowerShell"
+  },
+  "identity": "SignalRichard.dotnet-template-compendium-powershell",
+  "name": "Compendium.PowerShell",
+  "shortName": "powershell",
+  "description": "PowerShell module setup.",
+  "symbols": {
+    "moduleId": {
+      "type": "generated",
+      "description": "Generate a new GUID for the PowerShell module.",
+      "generator": "guid",
+      "replaces": "00000000-0000-0000-0000-000000000000"
+    },
+    "moduleName": {
+      "type": "parameter",
+      "description": "The module name.",
+      "datatype": "text",
+      "replaces": "Compendium",
+      "fileRename": "Compendium"
+    },
+    "moduleNameLower": {
+      "type": "generated",
+      "description": "The parameterized module name in lower case.",
+      "generator": "casing",
+      "parameters": {
+        "source": "moduleName",
+        "toLower": true
+      },
+      "replaces": "compendium"
+    }
+  }
+}

@@ -1,0 +1,122 @@
+name: compendium.powershell pipeline
+on:
+  push:
+  pull_request:
+    branches:
+    - main
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+env:
+  PACKAGE_NAME: Compendium.PowerShell.nupkg
+  ARTIFACT_NAME: Compendium.PowerShell
+  NODE_VERSION: '18'
+  NUGET_VERSION: '6.3.0'
+defaults:
+  run:
+    shell: pwsh
+jobs:
+  SemanticVersion:
+    runs-on: ubuntu-22.04
+    outputs:
+      semantic_version: ${{ steps.semantic_release.outputs.SEMANTIC_VERSION }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+    - name: Setup Node Version
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: Node Package Restore
+      run: ./build/scripts/Install-NodePackages.ps1
+    - name: Semantic Release (Dry-Run)
+      id: semantic_release
+      run: ./build/scripts/Invoke-SemanticRelease.ps1 -DryRun
+      env:
+        GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+        GH_REF: ${{ github.ref }}
+  Test:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: src/Compendium.PowerShell/Compendium
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+    - name: Install PSDepend
+      working-directory: ${{ github.workspace }}
+      run: ./build/scripts/Install-PSDepend.ps1
+    - name: Install Requirements
+      working-directory: ${{ github.workspace }}
+      run: ./build/scripts/Install-Requirements.ps1
+    - name: Test PowerShell Module Manifest
+      run: ./../../../build/scripts/Test-PowerShellModuleManifest.ps1
+    - name: Pester Tests
+      run: ./../../../build/scripts/Test-PowerShell.ps1
+    - name: PSScriptAnalyzer
+      run: ./../../../build/scripts/Test-PowerShellLinting.ps1
+  Build:
+    runs-on: ubuntu-22.04
+    needs:
+    - SemanticVersion
+    - Test
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: src
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - uses: nuget/setup-nuget@v2
+      with:
+        nuget-version: ${{ env.NUGET_VERSION }}
+    - name: Package Template
+      run: ./../build/scripts/Export-Package.ps1 -Nuspec "Compendium.PowerShell.nuspec" -SemanticVersion "${{ needs.SemanticVersion.outputs.semantic_version }}"
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: src/${{ env.PACKAGE_NAME }}
+  Release:
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-22.04
+    needs:
+    - SemanticVersion
+    - Build
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: a/${{ env.ARTIFACT_NAME }}
+    - uses: nuget/setup-nuget@v2
+      with:
+        nuget-api-key: ${{ secrets.NUGETAPIKEY }}
+        nuget-version: ${{ env.NUGET_VERSION }}
+    - name: Setup Node Version
+      uses: actions/setup-node@master
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - name: Node Package Restore
+      run: ./build/scripts/Install-NodePackages.ps1
+    - name: Semantic Release
+      id: semantic_release
+      run: ./build/scripts/Invoke-SemanticRelease.ps1
+      env:
+        GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+        GH_REF: ${{ github.ref }}
+    - name: Publish Package
+      run: |
+        ./build/scripts/Publish-Package.ps1 -PackagePath "a/${{ env.ARTIFACT_NAME }}/${{ env.PACKAGE_NAME }}"
+      env:
+        NUGETSOURCE: ${{ vars.NUGETSOURCE }}

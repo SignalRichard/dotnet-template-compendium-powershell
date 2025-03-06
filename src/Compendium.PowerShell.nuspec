@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Compendium.PowerShell</id>
+    <version>0.0.0</version>
+    <title>Compendium.PowerShell</title>
+    <authors>Richard Bolhofer</authors>
+    <owners></owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>PowerShell module setup.</description>
+    <copyright>Copyright (c) 2023 Richard Bolhofer</copyright>
+    <tags>dotnet-new templates powershell</tags>
+    <readme>content\.template.config\README.md</readme>
+    <packageTypes>
+      <packageType name="Template" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="Compendium.PowerShell\.template.config\README.md" target="content\.template.config\README.md" />
+    <file src="Compendium.PowerShell\.template.config\template.json" target="content\.template.config\template.json" />
+    <file src="Compendium.PowerShell\Compendium\Compendium.psd1" target="content\Compendium\Compendium.psd1" />
+    <file src="Compendium.PowerShell\Compendium\Compendium.psm1" target="content\Compendium\Compendium.psm1" />
+    <file src="Compendium.PowerShell\Compendium\README.md" target="content\Compendium\README.md" />
+    <file src="Compendium.PowerShell\Compendium\Classes\Compendium.ps1" target="content\Compendium\Classes\Compendium.ps1" />
+    <file src="Compendium.PowerShell\Compendium\Private\Test-CompendiumName.ps1" target="content\Compendium\Private\Test-CompendiumName.ps1" />
+    <file src="Compendium.PowerShell\Compendium\Public\Find-Compendium.ps1" target="content\Compendium\Public\Find-Compendium.ps1" />
+    <file src="Compendium.PowerShell\Compendium\Test\Compendium.GetTag.Tests.ps1" target="content\Compendium\Test\Compendium.GetTag.Tests.ps1" />
+    <file src="Compendium.PowerShell\Compendium\Test\Find-Compendium.Tests.ps1" target="content\Compendium\Test\Find-Compendium.Tests.ps1" />
+  </files>
+</package>
