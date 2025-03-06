@@ -50,10 +50,10 @@ jobs:
         persist-credentials: false
     - name: Install PSDepend
       working-directory: ${{ github.workspace }}
-      run: ./../../../build/scripts/Install-PSDepend.ps1
+      run: ./build/scripts/Install-PSDepend.ps1
     - name: Install Requirements
       working-directory: ${{ github.workspace }}
-      run: ./../../../build/scripts/Install-Requirements.ps1
+      run: ./build/scripts/Install-Requirements.ps1
     - name: Pester Tests
       run: ./../../../build/scripts/Test-PowerShell.ps1
     - name: PSScriptAnalyzer
