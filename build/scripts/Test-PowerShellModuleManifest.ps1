@@ -1,1 +1,1 @@
-Test-ModuleManifest -Path './Compendium.ps1'
+Test-ModuleManifest -Path './Compendium.psm1'
