@@ -15,7 +15,7 @@
       "type": "generated",
       "description": "Generate a new GUID for the PowerShell module.",
       "generator": "guid",
-      "replaces": "moduleId"
+      "replaces": "00000000-0000-0000-0000-000000000000"
     },
     "moduleName": {
       "type": "parameter",

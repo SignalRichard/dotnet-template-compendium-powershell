@@ -3,8 +3,8 @@ BeforeAll {
 
     $script:nameToFind = 'Book1'
     $script:collection = @(
-        [Compendium]::new($nameToFind, @('Book one.'))
-        [Compendium]::new('Book2', @('Book two.'))
+        [Compendium]::new($nameToFind, @{powershell = 'module'})
+        [Compendium]::new('Book2', @{powershell = 'module'})
     )
 }
 

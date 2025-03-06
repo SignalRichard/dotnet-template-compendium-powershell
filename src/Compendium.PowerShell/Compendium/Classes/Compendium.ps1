@@ -1,12 +1,12 @@
 [NoRunspaceAffinity()]
 class Compendium {
     [string] $Name
-    hidden [string[]] $Pages
+    hidden [hashtable[]] $Tags
 
-    Compendium([string] $Name, [string[]] $Pages) {
+    Compendium([string] $Name, [hashtable] $Tags) {
         $this.Init(@{
             Name = $Name
-            Pages = $Pages
+            Tags = $Tags
         })
     }
 
@@ -16,9 +16,9 @@ class Compendium {
         }
     }
 
-    [string] Read([int] $pageNumber) {
-        Write-Verbose -Message "Called `$this.Read($pageNumber)"
+    [object] Tag([string] $key) {
+        Write-Verbose -Message "Called `$this.Tag($key)"
 
-        return $this.Pages[$pageNumber]
+        return $this.Tags.$key
     }
 }
