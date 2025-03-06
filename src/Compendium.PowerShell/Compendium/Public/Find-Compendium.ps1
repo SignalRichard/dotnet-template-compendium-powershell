@@ -13,7 +13,7 @@
 
  .Example
    # Find by name
-   @([Compendium]::new('Atelier', @('page 1'))) | Find-Compendium -Name 'Atelier'
+   @([Compendium]::new('Atelier', @{'tag' = 'value'})) | Find-Compendium -Name 'Atelier'
 #>
 function Find-Compendium {
     [CmdletBinding()]

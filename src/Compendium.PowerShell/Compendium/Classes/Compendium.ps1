@@ -16,7 +16,7 @@ class Compendium {
         }
     }
 
-    [object] Tag([string] $key) {
+    [object] GetTag([string] $key) {
         Write-Verbose -Message "Called `$this.Tag($key)"
 
         return $this.Tags.$key

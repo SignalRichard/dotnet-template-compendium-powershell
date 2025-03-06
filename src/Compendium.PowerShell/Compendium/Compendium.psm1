@@ -3,10 +3,6 @@ param()
 
 Write-Verbose -Message $PSScriptRoot
 
-Write-Verbose -Message "Import types using TypeAccelerators"
-
-# Define the types to export with type accelerators.
-
 Write-Verbose -Message 'Import everything in sub folders folder'
 foreach($Folder in @('Classes', 'Private', 'Public'))
 {
@@ -23,6 +19,10 @@ foreach($Folder in @('Classes', 'Private', 'Public'))
 }
 
 Export-ModuleMember -Function (Get-ChildItem -Path "$PSScriptRoot\Public\*.ps1").BaseName
+
+Write-Verbose -Message "Import types using TypeAccelerators"
+
+# Define the types to export with type accelerators.
 
 $ExportableTypes = @(
     [Compendium]
